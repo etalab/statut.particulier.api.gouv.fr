@@ -1,0 +1,9 @@
+name: Global
+on: push
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call the API ping URL
+        run: curl --fail --silent https://particulier.api.gouv.fr/api/ping
