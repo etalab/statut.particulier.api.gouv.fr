@@ -1,0 +1,10 @@
+name: Ping API Particulier endpoints
+on: push
+
+jobs:
+  ping:
+    name: ping
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call the API ping URL
+        run: curl --fail https://particulier.api.gouv.fr/api/ping > /dev/null
