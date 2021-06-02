@@ -2,9 +2,13 @@ name: Ping API Particulier endpoints
 on: push
 
 jobs:
-  ping:
-    name: ping
+  global:
     runs-on: ubuntu-latest
     steps:
       - name: Call the API ping URL
         run: curl --fail https://particulier.api.gouv.fr/api/ping > /dev/null
+  dgfip:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call the DGFIP route
+        run: 'curl --fail --silent -H "X-Api-Key: ${{ secrets.API_KEY }}" "https://particulier.api.gouv.fr/api/v2/avis-imposition?referenceAvis=${{ secrets.REFERENCE_AVIS }}&numeroFiscal=${{ secrets.NUMERO_FISCAL }}"'
