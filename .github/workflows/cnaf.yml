@@ -3,11 +3,9 @@ on:
   schedule:
     - cron:  '0/5 * * * *'
 
-runs-on: self-hosted
-
 jobs:
   ping:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Call the CNAF route
         run: 'curl --fail --silent -H "X-Api-Key: ${{ secrets.API_KEY }}" "https://particulier.api.gouv.fr/api/v2/composition-familiale?numeroAllocataire=${{ secrets.NUMERO_ALLOCATAIRE }}&codePostal=${{ secrets.CODE_POSTAL }}"'
