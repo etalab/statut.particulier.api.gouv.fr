@@ -8,4 +8,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Call the DGFIP route
-        run: 'curl --fail --silent -H "X-Api-Key: ${{ secrets.API_KEY }}" "https://particulier.api.gouv.fr/api/v2/avis-imposition?referenceAvis=${{ secrets.REFERENCE_AVIS }}&numeroFiscal=${{ secrets.NUMERO_FISCAL }}"'
+        run: 'curl --fail --silent -H "X-Api-Key: ${{ secrets.API_KEY }}" "https://particulier.api.gouv.fr/api/v2/avis-imposition?referenceAvis=lol${{ secrets.REFERENCE_AVIS }}&numeroFiscal=${{ secrets.NUMERO_FISCAL }}"'
+      - name: Create the Mattermost failure message
+        if: ${{ failure() }}
+        run: |
+          echo "{\"text\":\"DGFIP endpoints ping failed :rotating_light:\"}" > mattermost.json
+      - uses: mattermost/action-mattermost-notify@master
+        if: ${{ failure() }}
+        env:
+          MATTERMOST_WEBHOOK_URL: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
