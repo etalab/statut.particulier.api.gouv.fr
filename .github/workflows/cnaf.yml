@@ -1,7 +1,6 @@
 name: CNAF
 on:
-  schedule:
-    - cron:  '0/5 * * * *'
+  workflow_dispatch
 
 jobs:
   ping:
@@ -9,3 +8,19 @@ jobs:
     steps:
       - name: Call the CNAF route
         run: 'curl --fail --silent -H "X-Api-Key: ${{ secrets.API_KEY }}" "https://particulier.api.gouv.fr/api/v2/composition-familiale?numeroAllocataire=${{ secrets.NUMERO_ALLOCATAIRE }}&codePostal=${{ secrets.CODE_POSTAL }}"'
+      - name: Create the Mattermost failure message
+        if: ${{ failure() }}
+        run: |
+          echo "{\"text\":\"**CNAF endpoints ping failed! :rotating_light:**\",\"username\":\"API Particulier monitoring\"}" > mattermost.json
+      - uses: mattermost/action-mattermost-notify@master
+        if: ${{ failure() }}
+        env:
+          MATTERMOST_WEBHOOK_URL: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
+      - name: Create the Mattermost failure message
+        if: ${{ failure() }}
+        run: |
+          echo "{\"text\":\"**CNAF endpoints ping failed! :rotating_light:**\",\"username\":\"API Particulier monitoring\",\"channel\":\"@stan\"}" > mattermost.json
+      - uses: mattermost/action-mattermost-notify@master
+        if: ${{ failure() }}
+        env:
+          MATTERMOST_WEBHOOK_URL: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
