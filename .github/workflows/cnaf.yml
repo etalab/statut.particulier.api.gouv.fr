@@ -3,6 +3,8 @@ on:
   schedule:
     - cron:  '0/5 * * * *'
 
+runs-on: self-hosted
+
 jobs:
   ping:
     runs-on: ubuntu-latest
