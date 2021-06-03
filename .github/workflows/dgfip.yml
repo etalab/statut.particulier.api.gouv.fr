@@ -14,7 +14,7 @@ jobs:
       - name: Create the Mattermost failure message
         if: ${{ failure() }}
         run: |
-          echo "{\"text\":\"DGFIP endpoints ping failed :rotating_light:\"}" > mattermost.json
+          echo "{\"text\":\"<!channel>**DGFIP endpoints ping failed! :rotating_light:**\",\"username\":\"API Particulier monitoring\",\"icon_url\":\"https://upload.wikimedia.org/wikipedia/fr/thumb/6/6d/Logo_DGFP-fr.svg/1200px-Logo_DGFP-fr.svg.png\"}" > mattermost.json
       - uses: mattermost/action-mattermost-notify@master
         if: ${{ failure() }}
         env:
